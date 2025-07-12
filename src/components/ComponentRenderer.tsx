@@ -6,7 +6,12 @@
 import React from 'react';
 import { ComponentRenderProps } from '../types/parametric';
 
-// Import component renderers
+// Import simplified component renderers (react-bits inspired)
+import { SimplifiedButtonRenderer } from './renderers/simplified/SimplifiedButtonRenderer';
+import { SimplifiedHeroRenderer } from './renderers/simplified/SimplifiedHeroRenderer';
+import { SimplifiedCardRenderer } from './renderers/simplified/SimplifiedCardRenderer';
+
+// Import original component renderers (fallback)
 import { HeroRenderer } from './renderers/HeroRenderer';
 import { ButtonRenderer } from './renderers/ButtonRenderer';
 import { CardRenderer } from './renderers/CardRenderer';
@@ -35,6 +40,24 @@ import { ScrollFloatRenderer } from './renderers/textAnimations/ScrollFloatRende
 import { ScrollVelocityRenderer } from './renderers/textAnimations/ScrollVelocityRenderer';
 import { VariableProximityRenderer } from './renderers/textAnimations/VariableProximityRenderer';
 
+// Component Renderers
+import { AnimatedListRenderer } from './renderers/components/AnimatedListRenderer';
+import { DockRenderer } from './renderers/components/DockRenderer';
+import { FluidGlassRenderer } from './renderers/components/FluidGlassRenderer';
+import { TiltedCardRenderer } from './renderers/components/TiltedCardRenderer';
+import { StackRenderer } from './renderers/components/StackRenderer';
+import { CarouselRenderer } from './renderers/components/CarouselRenderer';
+import { ModalRenderer } from './renderers/components/ModalRenderer';
+import { TabsRenderer } from './renderers/components/TabsRenderer';
+
+// Background Renderers
+import { AuroraRenderer } from './renderers/backgrounds/AuroraRenderer';
+import { ParticlesRenderer } from './renderers/backgrounds/ParticlesRenderer';
+import { WavesRenderer } from './renderers/backgrounds/WavesRenderer';
+import { SilkRenderer } from './renderers/backgrounds/SilkRenderer';
+import { BeamsRenderer } from './renderers/backgrounds/BeamsRenderer';
+import { GridRenderer } from './renderers/backgrounds/GridRenderer';
+
 // Animation Renderers
 import { FadeContentRenderer } from './renderers/animations/FadeContentRenderer';
 import { PixelTransitionRenderer } from './renderers/animations/PixelTransitionRenderer';
@@ -59,19 +82,9 @@ import { ImageTrailRenderer } from './renderers/animations/ImageTrailRenderer';
 import { RibbonsRenderer } from './renderers/animations/RibbonsRenderer';
 import { SplashCursorRenderer } from './renderers/animations/SplashCursorRenderer';
 
-// Background Renderers
-import { AuroraRenderer } from './renderers/backgrounds/AuroraRenderer';
-import { BeamsRenderer } from './renderers/backgrounds/BeamsRenderer';
-import { ParticlesRenderer } from './renderers/backgrounds/ParticlesRenderer';
-import { SilkRenderer } from './renderers/backgrounds/SilkRenderer';
-import { GridRenderer } from './renderers/backgrounds/GridRenderer';
-import { WavesRenderer } from './renderers/backgrounds/WavesRenderer';
 
-// Advanced Component Renderers
-import { AnimatedListRenderer } from './renderers/components/AnimatedListRenderer';
-import { FluidGlassRenderer } from './renderers/components/FluidGlassRenderer';
-import { TiltedCardRenderer } from './renderers/components/TiltedCardRenderer';
-import { DockRenderer } from './renderers/components/DockRenderer';
+
+
 
 export interface ComponentRendererProps {
   componentType: string;
@@ -82,10 +95,15 @@ export interface ComponentRendererProps {
  * Registry of component renderers
  */
 const COMPONENT_RENDERERS: Record<string, React.ComponentType<ComponentRenderProps>> = {
-  // Basic components
-  'hero': HeroRenderer,
-  'button': ButtonRenderer,
-  'card': CardRenderer,
+  // Basic components (simplified versions - react-bits inspired)
+  'hero': SimplifiedHeroRenderer,
+  'button': SimplifiedButtonRenderer,
+  'card': SimplifiedCardRenderer,
+
+  // Original versions (available as fallback)
+  'hero-original': HeroRenderer,
+  'button-original': ButtonRenderer,
+  'card-original': CardRenderer,
 
   // Text animations
   'blur-text': BlurTextRenderer,
@@ -148,6 +166,10 @@ const COMPONENT_RENDERERS: Record<string, React.ComponentType<ComponentRenderPro
   'fluid-glass': FluidGlassRenderer,
   'tilted-card': TiltedCardRenderer,
   'dock': DockRenderer,
+  'stack': StackRenderer,
+  'carousel': CarouselRenderer,
+  'modal': ModalRenderer,
+  'tabs': TabsRenderer,
 };
 
 /**

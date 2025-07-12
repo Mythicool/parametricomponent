@@ -25,7 +25,21 @@ import {
   crosshairSchema,
   imageTrailSchema,
   ribbonsSchema,
-  splashCursorSchema
+  splashCursorSchema,
+  animatedListSchema,
+  dockSchema,
+  fluidGlassSchema,
+  tiltedCardSchema,
+  auroraSchema,
+  particlesSchema,
+  wavesSchema,
+  silkSchema,
+  beamsSchema,
+  gridSchema,
+  stackSchema,
+  carouselSchema,
+  modalSchema,
+  tabsSchema
 } from './additionalSchemas';
 
 // Helper function to create schema
@@ -2287,7 +2301,21 @@ export const componentSchemas = {
   'crosshair': crosshairSchema,
   'image-trail': imageTrailSchema,
   'ribbons': ribbonsSchema,
-  'splash-cursor': splashCursorSchema
+  'splash-cursor': splashCursorSchema,
+  'animated-list': animatedListSchema,
+  'dock': dockSchema,
+  'fluid-glass': fluidGlassSchema,
+  'tilted-card': tiltedCardSchema,
+  'aurora': auroraSchema,
+  'particles': particlesSchema,
+  'waves': wavesSchema,
+  'silk': silkSchema,
+  'beams': beamsSchema,
+  'grid': gridSchema,
+  'stack': stackSchema,
+  'carousel': carouselSchema,
+  'modal': modalSchema,
+  'tabs': tabsSchema
 };
 
 export default componentSchemas;

@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import ParametricDemo from './examples/ParametricDemo';
+import DemoSelector from './examples/DemoSelector';
 
 // Global styles for the demo
 const globalStyles = `
@@ -149,6 +149,6 @@ if (!container) {
 const root = createRoot(container);
 root.render(
   <React.StrictMode>
-    <ParametricDemo />
+    <DemoSelector />
   </React.StrictMode>
 );

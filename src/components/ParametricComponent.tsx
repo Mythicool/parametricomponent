@@ -115,7 +115,7 @@ export const ParametricComponent: React.FC<ParametricComponentProps> = ({
     return {
       parameters: component.parameters,
       style: style || {},
-      className,
+      className: className || '',
       children,
       onParameterChange: (param: string, value: ParameterValue) => {
         if (system && component) {

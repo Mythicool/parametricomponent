@@ -1900,3 +1900,1500 @@ export const trueFocusSchema = createSchema(
     }
   }
 );
+
+// Animated List Schema
+export const animatedListSchema = createSchema(
+  'animated-list',
+  'Animated List Component',
+  'components',
+  'List with staggered entrance and exit animations',
+  {
+    'Content': ['items', 'itemHeight', 'spacing'],
+    'Animation': ['animationType', 'staggerDelay', 'duration', 'easing'],
+    'Appearance': ['backgroundColor', 'itemBackgroundColor', 'borderRadius', 'padding'],
+    'Layout': ['height', 'width']
+  },
+  {
+    items: {
+      type: 'text',
+      default: 'Item 1,Item 2,Item 3,Item 4,Item 5',
+      description: 'List items (comma-separated)',
+      group: 'Content'
+    },
+    itemHeight: {
+      type: 'slider',
+      min: 40,
+      max: 100,
+      default: 60,
+      unit: 'px',
+      description: 'Height of each item',
+      group: 'Content'
+    },
+    spacing: {
+      type: 'slider',
+      min: 0,
+      max: 20,
+      default: 8,
+      unit: 'px',
+      description: 'Spacing between items',
+      group: 'Content'
+    },
+    animationType: {
+      type: 'dropdown',
+      options: ['slideIn', 'fadeIn', 'scaleIn', 'bounceIn', 'flipIn'],
+      default: 'slideIn',
+      description: 'Animation type',
+      group: 'Animation'
+    },
+    staggerDelay: {
+      type: 'slider',
+      min: 50,
+      max: 300,
+      default: 100,
+      unit: 'ms',
+      description: 'Delay between item animations',
+      group: 'Animation'
+    },
+    duration: {
+      type: 'slider',
+      min: 200,
+      max: 1000,
+      default: 500,
+      unit: 'ms',
+      description: 'Animation duration',
+      group: 'Animation'
+    },
+    easing: {
+      type: 'dropdown',
+      options: ['ease', 'ease-in', 'ease-out', 'ease-in-out', 'bounce'],
+      default: 'ease-out',
+      description: 'Animation easing',
+      group: 'Animation'
+    },
+    backgroundColor: {
+      type: 'color',
+      default: 'transparent',
+      description: 'List background color',
+      group: 'Appearance'
+    },
+    itemBackgroundColor: {
+      type: 'color',
+      default: '#ffffff',
+      description: 'Item background color',
+      group: 'Appearance'
+    },
+    borderRadius: {
+      type: 'slider',
+      min: 0,
+      max: 20,
+      default: 8,
+      unit: 'px',
+      description: 'Item border radius',
+      group: 'Appearance'
+    },
+    padding: {
+      type: 'slider',
+      min: 8,
+      max: 32,
+      default: 16,
+      unit: 'px',
+      description: 'Item padding',
+      group: 'Appearance'
+    },
+    height: {
+      type: 'text',
+      default: '400px',
+      description: 'Container height',
+      group: 'Layout'
+    },
+    width: {
+      type: 'text',
+      default: '100%',
+      description: 'Container width',
+      group: 'Layout'
+    }
+  }
+);
+
+// Dock Schema
+export const dockSchema = createSchema(
+  'dock',
+  'Dock Component',
+  'components',
+  'macOS-style dock with magnification effects',
+  {
+    'Items': ['dockItems', 'iconSize', 'spacing'],
+    'Magnification': ['magnificationScale', 'magnificationRadius', 'animationSpeed'],
+    'Appearance': ['dockBackground', 'borderRadius', 'padding', 'shadow'],
+    'Layout': ['position', 'height']
+  },
+  {
+    dockItems: {
+      type: 'text',
+      default: '🏠,📁,💻,🎵,📷,⚙️,🗑️',
+      description: 'Dock items (comma-separated)',
+      group: 'Items'
+    },
+    iconSize: {
+      type: 'slider',
+      min: 32,
+      max: 80,
+      default: 48,
+      unit: 'px',
+      description: 'Base icon size',
+      group: 'Items'
+    },
+    spacing: {
+      type: 'slider',
+      min: 4,
+      max: 16,
+      default: 8,
+      unit: 'px',
+      description: 'Spacing between icons',
+      group: 'Items'
+    },
+    magnificationScale: {
+      type: 'slider',
+      min: 1.2,
+      max: 2.5,
+      step: 0.1,
+      default: 1.8,
+      description: 'Magnification scale',
+      group: 'Magnification'
+    },
+    magnificationRadius: {
+      type: 'slider',
+      min: 50,
+      max: 150,
+      default: 80,
+      unit: 'px',
+      description: 'Magnification radius',
+      group: 'Magnification'
+    },
+    animationSpeed: {
+      type: 'slider',
+      min: 100,
+      max: 500,
+      default: 200,
+      unit: 'ms',
+      description: 'Animation speed',
+      group: 'Magnification'
+    },
+    dockBackground: {
+      type: 'color',
+      default: 'rgba(255, 255, 255, 0.2)',
+      description: 'Dock background color',
+      group: 'Appearance'
+    },
+    borderRadius: {
+      type: 'slider',
+      min: 8,
+      max: 32,
+      default: 16,
+      unit: 'px',
+      description: 'Dock border radius',
+      group: 'Appearance'
+    },
+    padding: {
+      type: 'slider',
+      min: 8,
+      max: 24,
+      default: 12,
+      unit: 'px',
+      description: 'Dock padding',
+      group: 'Appearance'
+    },
+    shadow: {
+      type: 'toggle',
+      default: true,
+      description: 'Enable shadow',
+      group: 'Appearance'
+    },
+    position: {
+      type: 'dropdown',
+      options: ['bottom', 'top', 'left', 'right'],
+      default: 'bottom',
+      description: 'Dock position',
+      group: 'Layout'
+    },
+    height: {
+      type: 'text',
+      default: '120px',
+      description: 'Container height',
+      group: 'Layout'
+    }
+  }
+);
+
+// Fluid Glass Schema
+export const fluidGlassSchema = createSchema(
+  'fluid-glass',
+  'Fluid Glass Component',
+  'components',
+  'Glassmorphism card with fluid blur effects',
+  {
+    'Content': ['title', 'subtitle', 'description'],
+    'Glass': ['blurAmount', 'opacity', 'borderOpacity', 'borderWidth'],
+    'Colors': ['backgroundColor', 'borderColor', 'textColor'],
+    'Layout': ['width', 'height', 'padding', 'borderRadius']
+  },
+  {
+    title: {
+      type: 'text',
+      default: 'Glass Card',
+      description: 'Card title',
+      group: 'Content'
+    },
+    subtitle: {
+      type: 'text',
+      default: 'Glassmorphism Effect',
+      description: 'Card subtitle',
+      group: 'Content'
+    },
+    description: {
+      type: 'text',
+      default: 'Beautiful fluid glass effect with backdrop blur and transparency.',
+      description: 'Card description',
+      group: 'Content'
+    },
+    blurAmount: {
+      type: 'slider',
+      min: 4,
+      max: 20,
+      default: 10,
+      unit: 'px',
+      description: 'Backdrop blur amount',
+      group: 'Glass'
+    },
+    opacity: {
+      type: 'slider',
+      min: 0.1,
+      max: 0.9,
+      step: 0.1,
+      default: 0.2,
+      description: 'Background opacity',
+      group: 'Glass'
+    },
+    borderOpacity: {
+      type: 'slider',
+      min: 0.1,
+      max: 1,
+      step: 0.1,
+      default: 0.3,
+      description: 'Border opacity',
+      group: 'Glass'
+    },
+    borderWidth: {
+      type: 'slider',
+      min: 1,
+      max: 4,
+      default: 1,
+      unit: 'px',
+      description: 'Border width',
+      group: 'Glass'
+    },
+    backgroundColor: {
+      type: 'color',
+      default: '#ffffff',
+      description: 'Background color',
+      group: 'Colors'
+    },
+    borderColor: {
+      type: 'color',
+      default: '#ffffff',
+      description: 'Border color',
+      group: 'Colors'
+    },
+    textColor: {
+      type: 'color',
+      default: '#ffffff',
+      description: 'Text color',
+      group: 'Colors'
+    },
+    width: {
+      type: 'text',
+      default: '320px',
+      description: 'Card width',
+      group: 'Layout'
+    },
+    height: {
+      type: 'text',
+      default: '200px',
+      description: 'Card height',
+      group: 'Layout'
+    },
+    padding: {
+      type: 'slider',
+      min: 16,
+      max: 48,
+      default: 24,
+      unit: 'px',
+      description: 'Card padding',
+      group: 'Layout'
+    },
+    borderRadius: {
+      type: 'slider',
+      min: 8,
+      max: 32,
+      default: 16,
+      unit: 'px',
+      description: 'Border radius',
+      group: 'Layout'
+    }
+  }
+);
+
+// Tilted Card Schema
+export const tiltedCardSchema = createSchema(
+  'tilted-card',
+  'Tilted Card Component',
+  'components',
+  '3D tilted card with hover effects and perspective',
+  {
+    'Content': ['title', 'subtitle', 'imageUrl'],
+    'Tilt': ['maxTilt', 'perspective', 'scale', 'speed'],
+    'Effects': ['glareEffect', 'shadowEffect', 'transformOrigin'],
+    'Appearance': ['backgroundColor', 'borderRadius', 'padding'],
+    'Layout': ['width', 'height']
+  },
+  {
+    title: {
+      type: 'text',
+      default: 'Tilted Card',
+      description: 'Card title',
+      group: 'Content'
+    },
+    subtitle: {
+      type: 'text',
+      default: 'Interactive 3D Effect',
+      description: 'Card subtitle',
+      group: 'Content'
+    },
+    imageUrl: {
+      type: 'text',
+      default: '',
+      description: 'Background image URL',
+      group: 'Content'
+    },
+    maxTilt: {
+      type: 'slider',
+      min: 5,
+      max: 35,
+      default: 15,
+      unit: 'deg',
+      description: 'Maximum tilt angle',
+      group: 'Tilt'
+    },
+    perspective: {
+      type: 'slider',
+      min: 500,
+      max: 2000,
+      default: 1000,
+      unit: 'px',
+      description: '3D perspective',
+      group: 'Tilt'
+    },
+    scale: {
+      type: 'slider',
+      min: 1,
+      max: 1.2,
+      step: 0.05,
+      default: 1.05,
+      description: 'Hover scale factor',
+      group: 'Tilt'
+    },
+    speed: {
+      type: 'slider',
+      min: 100,
+      max: 500,
+      default: 200,
+      unit: 'ms',
+      description: 'Animation speed',
+      group: 'Tilt'
+    },
+    glareEffect: {
+      type: 'toggle',
+      default: true,
+      description: 'Enable glare effect',
+      group: 'Effects'
+    },
+    shadowEffect: {
+      type: 'toggle',
+      default: true,
+      description: 'Enable shadow effect',
+      group: 'Effects'
+    },
+    transformOrigin: {
+      type: 'dropdown',
+      options: ['center', 'top', 'bottom', 'left', 'right'],
+      default: 'center',
+      description: 'Transform origin',
+      group: 'Effects'
+    },
+    backgroundColor: {
+      type: 'color',
+      default: '#ffffff',
+      description: 'Card background color',
+      group: 'Appearance'
+    },
+    borderRadius: {
+      type: 'slider',
+      min: 8,
+      max: 32,
+      default: 16,
+      unit: 'px',
+      description: 'Border radius',
+      group: 'Appearance'
+    },
+    padding: {
+      type: 'slider',
+      min: 16,
+      max: 48,
+      default: 24,
+      unit: 'px',
+      description: 'Card padding',
+      group: 'Appearance'
+    },
+    width: {
+      type: 'text',
+      default: '300px',
+      description: 'Card width',
+      group: 'Layout'
+    },
+    height: {
+      type: 'text',
+      default: '200px',
+      description: 'Card height',
+      group: 'Layout'
+    }
+  }
+);
+
+// Aurora Background Schema
+export const auroraSchema = createSchema(
+  'aurora',
+  'Aurora Background',
+  'backgrounds',
+  'Northern lights animated background effect',
+  {
+    'Aurora': ['colors', 'intensity', 'speed', 'layers'],
+    'Animation': ['waveSpeed', 'shimmerSpeed', 'autoAnimate'],
+    'Layout': ['height', 'width', 'opacity']
+  },
+  {
+    colors: {
+      type: 'text',
+      default: '#00ff88,#0088ff,#8800ff,#ff0088',
+      description: 'Aurora colors (comma-separated)',
+      group: 'Aurora'
+    },
+    intensity: {
+      type: 'slider',
+      min: 0.3,
+      max: 1,
+      step: 0.1,
+      default: 0.7,
+      description: 'Aurora intensity',
+      group: 'Aurora'
+    },
+    speed: {
+      type: 'slider',
+      min: 0.5,
+      max: 3,
+      step: 0.5,
+      default: 1,
+      description: 'Animation speed',
+      group: 'Aurora'
+    },
+    layers: {
+      type: 'slider',
+      min: 2,
+      max: 6,
+      default: 3,
+      description: 'Number of aurora layers',
+      group: 'Aurora'
+    },
+    waveSpeed: {
+      type: 'slider',
+      min: 0.1,
+      max: 1,
+      step: 0.1,
+      default: 0.3,
+      description: 'Wave movement speed',
+      group: 'Animation'
+    },
+    shimmerSpeed: {
+      type: 'slider',
+      min: 0.5,
+      max: 2,
+      step: 0.1,
+      default: 1,
+      description: 'Shimmer speed',
+      group: 'Animation'
+    },
+    autoAnimate: {
+      type: 'toggle',
+      default: true,
+      description: 'Auto animate',
+      group: 'Animation'
+    },
+    height: {
+      type: 'text',
+      default: '100vh',
+      description: 'Background height',
+      group: 'Layout'
+    },
+    width: {
+      type: 'text',
+      default: '100%',
+      description: 'Background width',
+      group: 'Layout'
+    },
+    opacity: {
+      type: 'slider',
+      min: 0.3,
+      max: 1,
+      step: 0.1,
+      default: 0.8,
+      description: 'Background opacity',
+      group: 'Layout'
+    }
+  }
+);
+
+// Particles Background Schema
+export const particlesSchema = createSchema(
+  'particles',
+  'Particles Background',
+  'backgrounds',
+  'Animated particle system background',
+  {
+    'Particles': ['particleCount', 'particleSize', 'particleColors', 'particleShape'],
+    'Movement': ['speed', 'direction', 'randomness', 'mouseInteraction'],
+    'Connections': ['connectParticles', 'connectionDistance', 'connectionOpacity'],
+    'Layout': ['height', 'width', 'backgroundColor']
+  },
+  {
+    particleCount: {
+      type: 'slider',
+      min: 20,
+      max: 200,
+      default: 80,
+      description: 'Number of particles',
+      group: 'Particles'
+    },
+    particleSize: {
+      type: 'slider',
+      min: 1,
+      max: 8,
+      default: 3,
+      unit: 'px',
+      description: 'Particle size',
+      group: 'Particles'
+    },
+    particleColors: {
+      type: 'text',
+      default: '#3b82f6,#8b5cf6,#06b6d4,#10b981',
+      description: 'Particle colors (comma-separated)',
+      group: 'Particles'
+    },
+    particleShape: {
+      type: 'dropdown',
+      options: ['circle', 'square', 'triangle', 'star'],
+      default: 'circle',
+      description: 'Particle shape',
+      group: 'Particles'
+    },
+    speed: {
+      type: 'slider',
+      min: 0.1,
+      max: 2,
+      step: 0.1,
+      default: 0.5,
+      description: 'Movement speed',
+      group: 'Movement'
+    },
+    direction: {
+      type: 'dropdown',
+      options: ['random', 'up', 'down', 'left', 'right', 'radial'],
+      default: 'random',
+      description: 'Movement direction',
+      group: 'Movement'
+    },
+    randomness: {
+      type: 'slider',
+      min: 0,
+      max: 1,
+      step: 0.1,
+      default: 0.5,
+      description: 'Movement randomness',
+      group: 'Movement'
+    },
+    mouseInteraction: {
+      type: 'toggle',
+      default: true,
+      description: 'Mouse interaction',
+      group: 'Movement'
+    },
+    connectParticles: {
+      type: 'toggle',
+      default: true,
+      description: 'Connect nearby particles',
+      group: 'Connections'
+    },
+    connectionDistance: {
+      type: 'slider',
+      min: 50,
+      max: 200,
+      default: 100,
+      unit: 'px',
+      description: 'Connection distance',
+      group: 'Connections'
+    },
+    connectionOpacity: {
+      type: 'slider',
+      min: 0.1,
+      max: 1,
+      step: 0.1,
+      default: 0.3,
+      description: 'Connection line opacity',
+      group: 'Connections'
+    },
+    height: {
+      type: 'text',
+      default: '100vh',
+      description: 'Background height',
+      group: 'Layout'
+    },
+    width: {
+      type: 'text',
+      default: '100%',
+      description: 'Background width',
+      group: 'Layout'
+    },
+    backgroundColor: {
+      type: 'color',
+      default: '#0a0a0a',
+      description: 'Background color',
+      group: 'Layout'
+    }
+  }
+);
+
+// Waves Background Schema
+export const wavesSchema = createSchema(
+  'waves',
+  'Waves Background',
+  'backgrounds',
+  'Animated wave patterns background',
+  {
+    'Waves': ['waveCount', 'waveHeight', 'waveSpeed', 'waveColors'],
+    'Animation': ['direction', 'amplitude', 'frequency'],
+    'Layout': ['height', 'width', 'opacity']
+  },
+  {
+    waveCount: {
+      type: 'slider',
+      min: 2,
+      max: 8,
+      default: 4,
+      description: 'Number of wave layers',
+      group: 'Waves'
+    },
+    waveHeight: {
+      type: 'slider',
+      min: 50,
+      max: 200,
+      default: 100,
+      unit: 'px',
+      description: 'Wave height',
+      group: 'Waves'
+    },
+    waveSpeed: {
+      type: 'slider',
+      min: 0.5,
+      max: 3,
+      step: 0.5,
+      default: 1,
+      description: 'Wave animation speed',
+      group: 'Waves'
+    },
+    waveColors: {
+      type: 'text',
+      default: '#3b82f6,#8b5cf6,#06b6d4,#10b981',
+      description: 'Wave colors (comma-separated)',
+      group: 'Waves'
+    },
+    direction: {
+      type: 'dropdown',
+      options: ['horizontal', 'vertical', 'diagonal'],
+      default: 'horizontal',
+      description: 'Wave direction',
+      group: 'Animation'
+    },
+    amplitude: {
+      type: 'slider',
+      min: 10,
+      max: 100,
+      default: 50,
+      unit: 'px',
+      description: 'Wave amplitude',
+      group: 'Animation'
+    },
+    frequency: {
+      type: 'slider',
+      min: 0.5,
+      max: 3,
+      step: 0.1,
+      default: 1,
+      description: 'Wave frequency',
+      group: 'Animation'
+    },
+    height: {
+      type: 'text',
+      default: '100vh',
+      description: 'Background height',
+      group: 'Layout'
+    },
+    width: {
+      type: 'text',
+      default: '100%',
+      description: 'Background width',
+      group: 'Layout'
+    },
+    opacity: {
+      type: 'slider',
+      min: 0.3,
+      max: 1,
+      step: 0.1,
+      default: 0.8,
+      description: 'Background opacity',
+      group: 'Layout'
+    }
+  }
+);
+
+// Silk Background Schema
+export const silkSchema = createSchema(
+  'silk',
+  'Silk Background',
+  'backgrounds',
+  'Smooth silk-like flowing background',
+  {
+    'Silk': ['silkColors', 'flowSpeed', 'silkIntensity', 'layers'],
+    'Animation': ['waveLength', 'amplitude', 'autoFlow'],
+    'Layout': ['height', 'width', 'opacity']
+  },
+  {
+    silkColors: {
+      type: 'text',
+      default: '#ff6b6b,#4ecdc4,#45b7d1,#96ceb4',
+      description: 'Silk colors (comma-separated)',
+      group: 'Silk'
+    },
+    flowSpeed: {
+      type: 'slider',
+      min: 0.1,
+      max: 2,
+      step: 0.1,
+      default: 0.5,
+      description: 'Flow speed',
+      group: 'Silk'
+    },
+    silkIntensity: {
+      type: 'slider',
+      min: 0.3,
+      max: 1,
+      step: 0.1,
+      default: 0.7,
+      description: 'Silk effect intensity',
+      group: 'Silk'
+    },
+    layers: {
+      type: 'slider',
+      min: 2,
+      max: 6,
+      default: 3,
+      description: 'Number of silk layers',
+      group: 'Silk'
+    },
+    waveLength: {
+      type: 'slider',
+      min: 100,
+      max: 500,
+      default: 200,
+      unit: 'px',
+      description: 'Wave length',
+      group: 'Animation'
+    },
+    amplitude: {
+      type: 'slider',
+      min: 20,
+      max: 100,
+      default: 50,
+      unit: 'px',
+      description: 'Wave amplitude',
+      group: 'Animation'
+    },
+    autoFlow: {
+      type: 'toggle',
+      default: true,
+      description: 'Auto flow animation',
+      group: 'Animation'
+    },
+    height: {
+      type: 'text',
+      default: '100vh',
+      description: 'Background height',
+      group: 'Layout'
+    },
+    width: {
+      type: 'text',
+      default: '100%',
+      description: 'Background width',
+      group: 'Layout'
+    },
+    opacity: {
+      type: 'slider',
+      min: 0.3,
+      max: 1,
+      step: 0.1,
+      default: 0.8,
+      description: 'Background opacity',
+      group: 'Layout'
+    }
+  }
+);
+
+// Beams Background Schema
+export const beamsSchema = createSchema(
+  'beams',
+  'Beams Background',
+  'backgrounds',
+  'Light beam effects background',
+  {
+    'Beams': ['beamCount', 'beamWidth', 'beamColors', 'beamIntensity'],
+    'Animation': ['rotationSpeed', 'pulseSpeed', 'autoRotate'],
+    'Layout': ['height', 'width', 'opacity', 'backgroundColor']
+  },
+  {
+    beamCount: {
+      type: 'slider',
+      min: 3,
+      max: 12,
+      default: 6,
+      description: 'Number of light beams',
+      group: 'Beams'
+    },
+    beamWidth: {
+      type: 'slider',
+      min: 2,
+      max: 20,
+      default: 8,
+      unit: 'px',
+      description: 'Beam width',
+      group: 'Beams'
+    },
+    beamColors: {
+      type: 'text',
+      default: '#ffffff,#3b82f6,#8b5cf6,#06b6d4',
+      description: 'Beam colors (comma-separated)',
+      group: 'Beams'
+    },
+    beamIntensity: {
+      type: 'slider',
+      min: 0.3,
+      max: 1,
+      step: 0.1,
+      default: 0.7,
+      description: 'Beam intensity',
+      group: 'Beams'
+    },
+    rotationSpeed: {
+      type: 'slider',
+      min: 0.1,
+      max: 2,
+      step: 0.1,
+      default: 0.5,
+      description: 'Rotation speed',
+      group: 'Animation'
+    },
+    pulseSpeed: {
+      type: 'slider',
+      min: 0.5,
+      max: 3,
+      step: 0.1,
+      default: 1,
+      description: 'Pulse speed',
+      group: 'Animation'
+    },
+    autoRotate: {
+      type: 'toggle',
+      default: true,
+      description: 'Auto rotate beams',
+      group: 'Animation'
+    },
+    height: {
+      type: 'text',
+      default: '100vh',
+      description: 'Background height',
+      group: 'Layout'
+    },
+    width: {
+      type: 'text',
+      default: '100%',
+      description: 'Background width',
+      group: 'Layout'
+    },
+    opacity: {
+      type: 'slider',
+      min: 0.3,
+      max: 1,
+      step: 0.1,
+      default: 0.8,
+      description: 'Background opacity',
+      group: 'Layout'
+    },
+    backgroundColor: {
+      type: 'color',
+      default: '#000000',
+      description: 'Background color',
+      group: 'Layout'
+    }
+  }
+);
+
+// Grid Background Schema
+export const gridSchema = createSchema(
+  'grid',
+  'Grid Background',
+  'backgrounds',
+  'Animated grid pattern background',
+  {
+    'Grid': ['gridSize', 'gridColor', 'lineWidth', 'gridType'],
+    'Animation': ['animationType', 'animationSpeed', 'pulseEffect'],
+    'Layout': ['height', 'width', 'opacity', 'backgroundColor']
+  },
+  {
+    gridSize: {
+      type: 'slider',
+      min: 20,
+      max: 100,
+      default: 40,
+      unit: 'px',
+      description: 'Grid cell size',
+      group: 'Grid'
+    },
+    gridColor: {
+      type: 'color',
+      default: '#3b82f6',
+      description: 'Grid line color',
+      group: 'Grid'
+    },
+    lineWidth: {
+      type: 'slider',
+      min: 1,
+      max: 4,
+      default: 1,
+      unit: 'px',
+      description: 'Grid line width',
+      group: 'Grid'
+    },
+    gridType: {
+      type: 'dropdown',
+      options: ['square', 'hexagon', 'triangle', 'dots'],
+      default: 'square',
+      description: 'Grid pattern type',
+      group: 'Grid'
+    },
+    animationType: {
+      type: 'dropdown',
+      options: ['none', 'pulse', 'wave', 'fade', 'glow'],
+      default: 'pulse',
+      description: 'Animation type',
+      group: 'Animation'
+    },
+    animationSpeed: {
+      type: 'slider',
+      min: 0.5,
+      max: 3,
+      step: 0.1,
+      default: 1,
+      description: 'Animation speed',
+      group: 'Animation'
+    },
+    pulseEffect: {
+      type: 'toggle',
+      default: true,
+      description: 'Enable pulse effect',
+      group: 'Animation'
+    },
+    height: {
+      type: 'text',
+      default: '100vh',
+      description: 'Background height',
+      group: 'Layout'
+    },
+    width: {
+      type: 'text',
+      default: '100%',
+      description: 'Background width',
+      group: 'Layout'
+    },
+    opacity: {
+      type: 'slider',
+      min: 0.1,
+      max: 1,
+      step: 0.1,
+      default: 0.3,
+      description: 'Background opacity',
+      group: 'Layout'
+    },
+    backgroundColor: {
+      type: 'color',
+      default: '#000000',
+      description: 'Background color',
+      group: 'Layout'
+    }
+  }
+);
+
+// Stack Schema
+export const stackSchema = createSchema(
+  'stack',
+  'Stack Component',
+  'components',
+  'Stacked card interface with interactive layers',
+  {
+    'Cards': ['cardCount', 'cardContent', 'cardColors'],
+    'Stack': ['stackOffset', 'stackRotation', 'stackScale', 'stackDirection'],
+    'Interaction': ['hoverEffect', 'clickAction', 'animationSpeed'],
+    'Layout': ['cardWidth', 'cardHeight', 'borderRadius']
+  },
+  {
+    cardCount: {
+      type: 'slider',
+      min: 2,
+      max: 8,
+      default: 4,
+      description: 'Number of cards in stack',
+      group: 'Cards'
+    },
+    cardContent: {
+      type: 'text',
+      default: 'Card 1,Card 2,Card 3,Card 4',
+      description: 'Card content (comma-separated)',
+      group: 'Cards'
+    },
+    cardColors: {
+      type: 'text',
+      default: '#3b82f6,#8b5cf6,#06b6d4,#10b981',
+      description: 'Card colors (comma-separated)',
+      group: 'Cards'
+    },
+    stackOffset: {
+      type: 'slider',
+      min: 5,
+      max: 30,
+      default: 15,
+      unit: 'px',
+      description: 'Offset between cards',
+      group: 'Stack'
+    },
+    stackRotation: {
+      type: 'slider',
+      min: 0,
+      max: 15,
+      default: 3,
+      unit: 'deg',
+      description: 'Rotation between cards',
+      group: 'Stack'
+    },
+    stackScale: {
+      type: 'slider',
+      min: 0.9,
+      max: 1,
+      step: 0.02,
+      default: 0.95,
+      description: 'Scale factor for back cards',
+      group: 'Stack'
+    },
+    stackDirection: {
+      type: 'dropdown',
+      options: ['right', 'left', 'up', 'down', 'random'],
+      default: 'right',
+      description: 'Stack direction',
+      group: 'Stack'
+    },
+    hoverEffect: {
+      type: 'dropdown',
+      options: ['fan', 'lift', 'spread', 'rotate', 'none'],
+      default: 'fan',
+      description: 'Hover effect type',
+      group: 'Interaction'
+    },
+    clickAction: {
+      type: 'dropdown',
+      options: ['cycle', 'shuffle', 'flip', 'none'],
+      default: 'cycle',
+      description: 'Click action',
+      group: 'Interaction'
+    },
+    animationSpeed: {
+      type: 'slider',
+      min: 200,
+      max: 800,
+      default: 400,
+      unit: 'ms',
+      description: 'Animation speed',
+      group: 'Interaction'
+    },
+    cardWidth: {
+      type: 'text',
+      default: '200px',
+      description: 'Card width',
+      group: 'Layout'
+    },
+    cardHeight: {
+      type: 'text',
+      default: '120px',
+      description: 'Card height',
+      group: 'Layout'
+    },
+    borderRadius: {
+      type: 'slider',
+      min: 4,
+      max: 24,
+      default: 12,
+      unit: 'px',
+      description: 'Card border radius',
+      group: 'Layout'
+    }
+  }
+);
+
+// Carousel Schema
+export const carouselSchema = createSchema(
+  'carousel',
+  'Carousel Component',
+  'components',
+  'Image/content carousel with smooth transitions',
+  {
+    'Content': ['items', 'itemType', 'showThumbnails'],
+    'Navigation': ['showArrows', 'showDots', 'autoPlay', 'autoPlaySpeed'],
+    'Animation': ['transitionType', 'transitionSpeed', 'easing'],
+    'Layout': ['itemsPerView', 'spacing', 'height', 'width']
+  },
+  {
+    items: {
+      type: 'text',
+      default: 'https://picsum.photos/400/300?random=1,https://picsum.photos/400/300?random=2,https://picsum.photos/400/300?random=3,https://picsum.photos/400/300?random=4',
+      description: 'Carousel items (comma-separated URLs or text)',
+      group: 'Content'
+    },
+    itemType: {
+      type: 'dropdown',
+      options: ['image', 'text', 'mixed'],
+      default: 'image',
+      description: 'Type of carousel items',
+      group: 'Content'
+    },
+    showThumbnails: {
+      type: 'toggle',
+      default: false,
+      description: 'Show thumbnail navigation',
+      group: 'Content'
+    },
+    showArrows: {
+      type: 'toggle',
+      default: true,
+      description: 'Show navigation arrows',
+      group: 'Navigation'
+    },
+    showDots: {
+      type: 'toggle',
+      default: true,
+      description: 'Show dot indicators',
+      group: 'Navigation'
+    },
+    autoPlay: {
+      type: 'toggle',
+      default: false,
+      description: 'Auto play carousel',
+      group: 'Navigation'
+    },
+    autoPlaySpeed: {
+      type: 'slider',
+      min: 1000,
+      max: 8000,
+      default: 3000,
+      unit: 'ms',
+      description: 'Auto play speed',
+      group: 'Navigation'
+    },
+    transitionType: {
+      type: 'dropdown',
+      options: ['slide', 'fade', 'scale', 'flip', 'cube'],
+      default: 'slide',
+      description: 'Transition animation',
+      group: 'Animation'
+    },
+    transitionSpeed: {
+      type: 'slider',
+      min: 200,
+      max: 1000,
+      default: 500,
+      unit: 'ms',
+      description: 'Transition speed',
+      group: 'Animation'
+    },
+    easing: {
+      type: 'dropdown',
+      options: ['ease', 'ease-in', 'ease-out', 'ease-in-out', 'cubic-bezier'],
+      default: 'ease-out',
+      description: 'Transition easing',
+      group: 'Animation'
+    },
+    itemsPerView: {
+      type: 'slider',
+      min: 1,
+      max: 5,
+      default: 1,
+      description: 'Items visible at once',
+      group: 'Layout'
+    },
+    spacing: {
+      type: 'slider',
+      min: 0,
+      max: 40,
+      default: 16,
+      unit: 'px',
+      description: 'Spacing between items',
+      group: 'Layout'
+    },
+    height: {
+      type: 'text',
+      default: '300px',
+      description: 'Carousel height',
+      group: 'Layout'
+    },
+    width: {
+      type: 'text',
+      default: '100%',
+      description: 'Carousel width',
+      group: 'Layout'
+    }
+  }
+);
+
+// Modal Schema
+export const modalSchema = createSchema(
+  'modal',
+  'Modal Component',
+  'components',
+  'Customizable modal dialog with animations',
+  {
+    'Content': ['title', 'content', 'showCloseButton'],
+    'Animation': ['animationType', 'animationDuration', 'backdropBlur'],
+    'Appearance': ['modalWidth', 'modalHeight', 'borderRadius', 'backgroundColor'],
+    'Backdrop': ['backdropColor', 'backdropOpacity', 'closeOnBackdropClick']
+  },
+  {
+    title: {
+      type: 'text',
+      default: 'Modal Title',
+      description: 'Modal title',
+      group: 'Content'
+    },
+    content: {
+      type: 'text',
+      default: 'This is the modal content. You can put any content here.',
+      description: 'Modal content',
+      group: 'Content'
+    },
+    showCloseButton: {
+      type: 'toggle',
+      default: true,
+      description: 'Show close button',
+      group: 'Content'
+    },
+    animationType: {
+      type: 'dropdown',
+      options: ['fade', 'scale', 'slideUp', 'slideDown', 'slideLeft', 'slideRight'],
+      default: 'scale',
+      description: 'Animation type',
+      group: 'Animation'
+    },
+    animationDuration: {
+      type: 'slider',
+      min: 200,
+      max: 800,
+      default: 300,
+      unit: 'ms',
+      description: 'Animation duration',
+      group: 'Animation'
+    },
+    backdropBlur: {
+      type: 'slider',
+      min: 0,
+      max: 20,
+      default: 4,
+      unit: 'px',
+      description: 'Backdrop blur amount',
+      group: 'Animation'
+    },
+    modalWidth: {
+      type: 'text',
+      default: '500px',
+      description: 'Modal width',
+      group: 'Appearance'
+    },
+    modalHeight: {
+      type: 'text',
+      default: 'auto',
+      description: 'Modal height',
+      group: 'Appearance'
+    },
+    borderRadius: {
+      type: 'slider',
+      min: 0,
+      max: 32,
+      default: 12,
+      unit: 'px',
+      description: 'Border radius',
+      group: 'Appearance'
+    },
+    backgroundColor: {
+      type: 'color',
+      default: '#ffffff',
+      description: 'Modal background color',
+      group: 'Appearance'
+    },
+    backdropColor: {
+      type: 'color',
+      default: '#000000',
+      description: 'Backdrop color',
+      group: 'Backdrop'
+    },
+    backdropOpacity: {
+      type: 'slider',
+      min: 0.1,
+      max: 0.9,
+      step: 0.1,
+      default: 0.5,
+      description: 'Backdrop opacity',
+      group: 'Backdrop'
+    },
+    closeOnBackdropClick: {
+      type: 'toggle',
+      default: true,
+      description: 'Close on backdrop click',
+      group: 'Backdrop'
+    }
+  }
+);
+
+// Tabs Schema
+export const tabsSchema = createSchema(
+  'tabs',
+  'Tabs Component',
+  'components',
+  'Interactive tab navigation with content panels',
+  {
+    'Tabs': ['tabLabels', 'tabContents', 'defaultTab'],
+    'Appearance': ['tabStyle', 'activeColor', 'inactiveColor', 'borderColor'],
+    'Animation': ['animationType', 'animationSpeed', 'smoothTransition'],
+    'Layout': ['tabPosition', 'contentHeight', 'tabSpacing']
+  },
+  {
+    tabLabels: {
+      type: 'text',
+      default: 'Tab 1,Tab 2,Tab 3,Tab 4',
+      description: 'Tab labels (comma-separated)',
+      group: 'Tabs'
+    },
+    tabContents: {
+      type: 'text',
+      default: 'Content for Tab 1,Content for Tab 2,Content for Tab 3,Content for Tab 4',
+      description: 'Tab contents (comma-separated)',
+      group: 'Tabs'
+    },
+    defaultTab: {
+      type: 'slider',
+      min: 0,
+      max: 10,
+      default: 0,
+      description: 'Default active tab (0-based)',
+      group: 'Tabs'
+    },
+    tabStyle: {
+      type: 'dropdown',
+      options: ['underline', 'pills', 'buttons', 'minimal', 'cards'],
+      default: 'underline',
+      description: 'Tab style',
+      group: 'Appearance'
+    },
+    activeColor: {
+      type: 'color',
+      default: '#3b82f6',
+      description: 'Active tab color',
+      group: 'Appearance'
+    },
+    inactiveColor: {
+      type: 'color',
+      default: '#6b7280',
+      description: 'Inactive tab color',
+      group: 'Appearance'
+    },
+    borderColor: {
+      type: 'color',
+      default: '#e5e7eb',
+      description: 'Border color',
+      group: 'Appearance'
+    },
+    animationType: {
+      type: 'dropdown',
+      options: ['slide', 'fade', 'scale', 'none'],
+      default: 'slide',
+      description: 'Content animation',
+      group: 'Animation'
+    },
+    animationSpeed: {
+      type: 'slider',
+      min: 200,
+      max: 600,
+      default: 300,
+      unit: 'ms',
+      description: 'Animation speed',
+      group: 'Animation'
+    },
+    smoothTransition: {
+      type: 'toggle',
+      default: true,
+      description: 'Smooth transitions',
+      group: 'Animation'
+    },
+    tabPosition: {
+      type: 'dropdown',
+      options: ['top', 'bottom', 'left', 'right'],
+      default: 'top',
+      description: 'Tab position',
+      group: 'Layout'
+    },
+    contentHeight: {
+      type: 'text',
+      default: '200px',
+      description: 'Content area height',
+      group: 'Layout'
+    },
+    tabSpacing: {
+      type: 'slider',
+      min: 0,
+      max: 32,
+      default: 8,
+      unit: 'px',
+      description: 'Spacing between tabs',
+      group: 'Layout'
+    }
+  }
+);

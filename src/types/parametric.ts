@@ -198,7 +198,7 @@ export interface ValidationResult {
 // Component render props
 export interface ComponentRenderProps {
   parameters: Record<string, ParameterValue>;
-  style: React.CSSProperties;
+  style?: React.CSSProperties;
   className?: string;
   children?: React.ReactNode;
   onParameterChange?: (parameter: string, value: ParameterValue) => void;
