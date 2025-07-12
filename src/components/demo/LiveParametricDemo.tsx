@@ -1,14 +1,13 @@
 /**
  * Complete Live Parametric Demo Component
- * Self-contained component demonstrating simplified Button, Hero, and Card components
+ * Self-contained component demonstrating all available parametric components
  * with real-time parametric controls
  */
 
-import React, { useState, useCallback } from 'react';
-import { SimplifiedButtonRenderer } from '../renderers/simplified/SimplifiedButtonRenderer';
-import { SimplifiedHeroRenderer } from '../renderers/simplified/SimplifiedHeroRenderer';
-import { SimplifiedCardRenderer } from '../renderers/simplified/SimplifiedCardRenderer';
-import { ComponentRenderProps, ParameterValue } from '../../types/parametric';
+import React, { useState, useCallback, useEffect } from 'react';
+import { ComponentRenderer } from '../ComponentRenderer';
+import { componentSchemas } from '../../schemas/componentSchemas';
+import { ComponentRenderProps, ParameterValue, ComponentSchema } from '../../types/parametric';
 
 // Control component for sliders, toggles, etc.
 const ParameterControl: React.FC<{
@@ -115,89 +114,90 @@ const ParameterControl: React.FC<{
 
 // Main demo component
 export const LiveParametricDemo: React.FC = () => {
-  const [selectedComponent, setSelectedComponent] = useState<'button' | 'hero' | 'card'>('button');
+  const [selectedComponent, setSelectedComponent] = useState<string>('button');
   const [showExport, setShowExport] = useState(false);
-  
-  // Button parameters
-  const [buttonParams, setButtonParams] = useState<Record<string, ParameterValue>>({
-    backgroundColor: '#4f46e5',
-    textColor: '#ffffff',
-    fontSize: 16,
-    padding: 16,
-    borderRadius: 8,
-    hoverScale: 1.05,
-    animationDuration: 200,
-    width: 180,
-    shadow: true,
-    variant: 'filled',
-    disabled: false,
-    ripple: true
-  });
+  const [availableComponents, setAvailableComponents] = useState<string[]>([]);
+  const [componentParameters, setComponentParameters] = useState<Record<string, ParameterValue>>({});
+  const [currentSchema, setCurrentSchema] = useState<ComponentSchema | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
-  // Hero parameters
-  const [heroParams, setHeroParams] = useState<Record<string, ParameterValue>>({
-    backgroundColor: '#1a1a2e',
-    textColor: '#ffffff',
-    fontSize: 48,
-    padding: 60,
-    borderRadius: 12,
-    animationDuration: 800,
-    opacity: 1,
-    spacing: 24,
-    layout: 'center',
-    gradient: true,
-    gradientDirection: '135deg',
-    shadowIntensity: 0.3,
-    minHeight: 400,
-    overlay: true,
-    overlayOpacity: 0.4
-  });
+  // Initialize available components and set default parameters
+  useEffect(() => {
+    const components = Object.keys(componentSchemas);
+    setAvailableComponents(components);
 
-  // Card parameters
-  const [cardParams, setCardParams] = useState<Record<string, ParameterValue>>({
-    backgroundColor: '#ffffff',
-    borderColor: '#e5e7eb',
-    borderWidth: 1,
-    borderRadius: 12,
-    padding: 24,
-    shadowIntensity: 0.1,
-    hoverLift: 4,
-    spacing: 16,
-    layout: 'vertical',
-    interactive: true,
-    animationDuration: 200,
-    gradient: false,
-    gradientDirection: '135deg',
-    hoverShadowIntensity: 0.2
-  });
+    // Set initial component and parameters
+    if (components.length > 0) {
+      const initialComponent = components.includes('button') ? 'button' : components[0];
+      setSelectedComponent(initialComponent);
+      const schema = componentSchemas[initialComponent as keyof typeof componentSchemas];
+      setCurrentSchema(schema);
 
-  // Update parameter functions
-  const updateButtonParam = useCallback((key: string, value: ParameterValue) => {
-    setButtonParams(prev => ({ ...prev, [key]: value }));
-  }, []);
-
-  const updateHeroParam = useCallback((key: string, value: ParameterValue) => {
-    setHeroParams(prev => ({ ...prev, [key]: value }));
-  }, []);
-
-  const updateCardParam = useCallback((key: string, value: ParameterValue) => {
-    setCardParams(prev => ({ ...prev, [key]: value }));
-  }, []);
-
-  // Get current parameters and update function
-  const getCurrentParams = () => {
-    switch (selectedComponent) {
-      case 'button': return { params: buttonParams, update: updateButtonParam };
-      case 'hero': return { params: heroParams, update: updateHeroParam };
-      case 'card': return { params: cardParams, update: updateCardParam };
+      // Set default parameters from schema
+      const defaultParams: Record<string, ParameterValue> = {};
+      Object.entries(schema.parameters).forEach(([key, param]) => {
+        defaultParams[key] = param.default;
+      });
+      setComponentParameters(defaultParams);
     }
+  }, []);
+
+  // Get unique categories
+  const getCategories = () => {
+    const categories = new Set<string>();
+    Object.values(componentSchemas).forEach(schema => {
+      categories.add(schema.category);
+    });
+    return Array.from(categories).sort();
   };
 
-  const { params, update } = getCurrentParams();
+  // Filter components based on category and search term
+  const getFilteredComponents = () => {
+    let filtered = availableComponents;
+
+    // Filter by category
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(componentKey => {
+        const schema = componentSchemas[componentKey as keyof typeof componentSchemas];
+        return schema.category === selectedCategory;
+      });
+    }
+
+    // Filter by search term
+    if (searchTerm) {
+      filtered = filtered.filter(componentKey =>
+        componentKey.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        componentSchemas[componentKey as keyof typeof componentSchemas]?.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    return filtered;
+  };
+
+  // Update parameters when component changes
+  useEffect(() => {
+    if (selectedComponent && componentSchemas[selectedComponent as keyof typeof componentSchemas]) {
+      const schema = componentSchemas[selectedComponent as keyof typeof componentSchemas];
+      setCurrentSchema(schema);
+
+      // Set default parameters from schema
+      const defaultParams: Record<string, ParameterValue> = {};
+      Object.entries(schema.parameters).forEach(([key, param]) => {
+        defaultParams[key] = param.default;
+      });
+      setComponentParameters(defaultParams);
+    }
+  }, [selectedComponent]);
+
+  // Update parameter function
+  const updateParameter = useCallback((key: string, value: ParameterValue) => {
+    setComponentParameters(prev => ({ ...prev, [key]: value }));
+  }, []);
 
   // Export functionality
   const generateCodeSnippet = () => {
-    const paramsString = JSON.stringify(params, null, 2);
+    const paramsString = JSON.stringify(componentParameters, null, 2);
     return `<ParametricComponent
   type="${selectedComponent}"
   parameters={${paramsString}}
@@ -212,7 +212,7 @@ export const LiveParametricDemo: React.FC = () => {
       name: `Custom ${selectedComponent.charAt(0).toUpperCase() + selectedComponent.slice(1)}`,
       description: `Custom ${selectedComponent} preset created in demo`,
       componentType: selectedComponent,
-      parameters: params,
+      parameters: componentParameters,
       metadata: {
         createdAt: new Date().toISOString(),
         author: 'Demo User'
@@ -240,25 +240,25 @@ export const LiveParametricDemo: React.FC = () => {
   // Debug function to verify real-time updates
   const handleParameterUpdate = (key: string, value: ParameterValue) => {
     console.log(`🔄 Parameter Update: ${key} = ${value} (Component: ${selectedComponent})`);
-    update(key, value);
+    updateParameter(key, value);
   };
 
   // Render current component
   const renderComponent = () => {
     const renderProps: ComponentRenderProps = {
-      parameters: params,
+      parameters: componentParameters,
       style: {},
       className: 'demo-component'
     };
 
-    switch (selectedComponent) {
-      case 'button':
-        return <SimplifiedButtonRenderer {...renderProps}>Click Me!</SimplifiedButtonRenderer>;
-      case 'hero':
-        return <SimplifiedHeroRenderer {...renderProps} />;
-      case 'card':
-        return <SimplifiedCardRenderer {...renderProps} />;
-    }
+    return (
+      <ComponentRenderer
+        componentType={selectedComponent}
+        renderProps={renderProps}
+      >
+        {selectedComponent === 'button' ? 'Click Me!' : undefined}
+      </ComponentRenderer>
+    );
   };
 
   return (
@@ -293,27 +293,79 @@ export const LiveParametricDemo: React.FC = () => {
             Real-time component customization with parametric controls
           </p>
 
-          {/* Component selector */}
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-            {(['button', 'hero', 'card'] as const).map(type => (
-              <button
-                key={type}
-                onClick={() => setSelectedComponent(type)}
+          {/* Component selector with filtering */}
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{
+              display: 'block',
+              fontSize: '14px',
+              fontWeight: '500',
+              color: '#374151',
+              marginBottom: '8px'
+            }}>
+              Select Component ({getFilteredComponents().length} of {availableComponents.length} available)
+            </label>
+
+            {/* Category filter */}
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
                 style={{
-                  padding: '8px 16px',
-                  borderRadius: '6px',
-                  border: 'none',
-                  backgroundColor: selectedComponent === type ? '#4f46e5' : '#e2e8f0',
-                  color: selectedComponent === type ? 'white' : '#374151',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  textTransform: 'capitalize'
+                  flex: 1,
+                  padding: '6px 8px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  backgroundColor: '#ffffff'
                 }}
               >
-                {type}
-              </button>
-            ))}
+                <option value="all">All Categories</option>
+                {getCategories().map(category => (
+                  <option key={category} value={category}>
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                  </option>
+                ))}
+              </select>
+
+              {/* Search input */}
+              <input
+                type="text"
+                placeholder="Search components..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{
+                  flex: 1,
+                  padding: '6px 8px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '4px',
+                  fontSize: '12px'
+                }}
+              />
+            </div>
+
+            {/* Component selector */}
+            <select
+              value={selectedComponent}
+              onChange={(e) => setSelectedComponent(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '8px 12px',
+                border: '1px solid #d1d5db',
+                borderRadius: '6px',
+                fontSize: '14px',
+                backgroundColor: '#ffffff',
+                cursor: 'pointer'
+              }}
+            >
+              {getFilteredComponents().map(type => {
+                const schema = componentSchemas[type as keyof typeof componentSchemas];
+                return (
+                  <option key={type} value={type}>
+                    {schema?.name || type} ({schema?.category || 'unknown'})
+                  </option>
+                );
+              })}
+            </select>
           </div>
 
           {/* Export controls */}
@@ -334,7 +386,7 @@ export const LiveParametricDemo: React.FC = () => {
               📋 Copy Code
             </button>
             <button
-              onClick={() => copyToClipboard(JSON.stringify(params, null, 2))}
+              onClick={() => copyToClipboard(JSON.stringify(componentParameters, null, 2))}
               style={{
                 padding: '6px 12px',
                 borderRadius: '4px',
@@ -494,239 +546,42 @@ export const LiveParametricDemo: React.FC = () => {
         </h2>
 
         {/* Dynamic controls based on selected component */}
-        {selectedComponent === 'button' && (
-          <>
-            <ParameterControl
-              label="Background Color"
-              type="color"
-              value={buttonParams.backgroundColor}
-              onChange={(value) => handleParameterUpdate('backgroundColor', value)}
-            />
-            <ParameterControl
-              label="Text Color"
-              type="color"
-              value={buttonParams.textColor}
-              onChange={(value) => handleParameterUpdate('textColor', value)}
-            />
-            <ParameterControl
-              label="Font Size"
-              type="slider"
-              value={buttonParams.fontSize}
-              onChange={(value) => handleParameterUpdate('fontSize', value)}
-              min={12}
-              max={32}
-              unit="px"
-            />
-            <ParameterControl
-              label="Padding"
-              type="slider"
-              value={buttonParams.padding}
-              onChange={(value) => handleParameterUpdate('padding', value)}
-              min={8}
-              max={32}
-              unit="px"
-            />
-            <ParameterControl
-              label="Border Radius"
-              type="slider"
-              value={buttonParams.borderRadius}
-              onChange={(value) => handleParameterUpdate('borderRadius', value)}
-              min={0}
-              max={24}
-              unit="px"
-            />
-            <ParameterControl
-              label="Hover Scale"
-              type="slider"
-              value={buttonParams.hoverScale}
-              onChange={(value) => handleParameterUpdate('hoverScale', value)}
-              min={1}
-              max={1.2}
-              step={0.01}
-            />
-            <ParameterControl
-              label="Variant"
-              type="select"
-              value={buttonParams.variant}
-              onChange={(value) => handleParameterUpdate('variant', value)}
-              options={['filled', 'outlined', 'ghost']}
-            />
-            <ParameterControl
-              label="Shadow"
-              type="toggle"
-              value={buttonParams.shadow}
-              onChange={(value) => handleParameterUpdate('shadow', value)}
-            />
-            <ParameterControl
-              label="Ripple Effect"
-              type="toggle"
-              value={buttonParams.ripple}
-              onChange={(value) => handleParameterUpdate('ripple', value)}
-            />
-            <ParameterControl
-              label="Disabled"
-              type="toggle"
-              value={buttonParams.disabled}
-              onChange={(value) => handleParameterUpdate('disabled', value)}
-            />
-          </>
-        )}
+        {currentSchema && Object.entries(currentSchema.parameters).map(([paramKey, paramConfig]) => {
+          const value = componentParameters[paramKey];
 
-        {selectedComponent === 'hero' && (
-          <>
-            <ParameterControl
-              label="Background Color"
-              type="color"
-              value={heroParams.backgroundColor}
-              onChange={(value) => handleParameterUpdate('backgroundColor', value)}
-            />
-            <ParameterControl
-              label="Text Color"
-              type="color"
-              value={heroParams.textColor}
-              onChange={(value) => handleParameterUpdate('textColor', value)}
-            />
-            <ParameterControl
-              label="Font Size"
-              type="slider"
-              value={heroParams.fontSize}
-              onChange={(value) => handleParameterUpdate('fontSize', value)}
-              min={24}
-              max={72}
-              unit="px"
-            />
-            <ParameterControl
-              label="Padding"
-              type="slider"
-              value={heroParams.padding}
-              onChange={(value) => handleParameterUpdate('padding', value)}
-              min={20}
-              max={100}
-              unit="px"
-            />
-            <ParameterControl
-              label="Border Radius"
-              type="slider"
-              value={heroParams.borderRadius}
-              onChange={(value) => handleParameterUpdate('borderRadius', value)}
-              min={0}
-              max={32}
-              unit="px"
-            />
-            <ParameterControl
-              label="Opacity"
-              type="slider"
-              value={heroParams.opacity}
-              onChange={(value) => handleParameterUpdate('opacity', value)}
-              min={0}
-              max={1}
-              step={0.1}
-            />
-            <ParameterControl
-              label="Shadow Intensity"
-              type="slider"
-              value={heroParams.shadowIntensity}
-              onChange={(value) => handleParameterUpdate('shadowIntensity', value)}
-              min={0}
-              max={1}
-              step={0.1}
-            />
-            <ParameterControl
-              label="Layout"
-              type="select"
-              value={heroParams.layout}
-              onChange={(value) => handleParameterUpdate('layout', value)}
-              options={['left', 'center', 'right']}
-            />
-            <ParameterControl
-              label="Gradient"
-              type="toggle"
-              value={heroParams.gradient}
-              onChange={(value) => handleParameterUpdate('gradient', value)}
-            />
-          </>
-        )}
+          // Determine control type based on parameter configuration
+          let controlType: 'slider' | 'toggle' | 'color' | 'select' = 'slider';
+          let controlProps: any = {};
 
-        {selectedComponent === 'card' && (
-          <>
+          if (paramConfig.type === 'boolean') {
+            controlType = 'toggle';
+          } else if (paramConfig.type === 'color' || paramKey.toLowerCase().includes('color')) {
+            controlType = 'color';
+          } else if (paramConfig.options && paramConfig.options.length > 0) {
+            controlType = 'select';
+            controlProps.options = paramConfig.options;
+          } else if (paramConfig.type === 'number') {
+            controlType = 'slider';
+            controlProps.min = paramConfig.min || 0;
+            controlProps.max = paramConfig.max || 100;
+            controlProps.step = paramConfig.step || 1;
+            controlProps.unit = paramConfig.unit || '';
+          }
+
+          return (
             <ParameterControl
-              label="Background Color"
-              type="color"
-              value={cardParams.backgroundColor}
-              onChange={(value) => handleParameterUpdate('backgroundColor', value)}
+              key={paramKey}
+              label={paramConfig.description || paramKey}
+              type={controlType}
+              value={value}
+              onChange={(newValue) => handleParameterUpdate(paramKey, newValue)}
+              {...controlProps}
             />
-            <ParameterControl
-              label="Border Color"
-              type="color"
-              value={cardParams.borderColor}
-              onChange={(value) => handleParameterUpdate('borderColor', value)}
-            />
-            <ParameterControl
-              label="Border Width"
-              type="slider"
-              value={cardParams.borderWidth}
-              onChange={(value) => handleParameterUpdate('borderWidth', value)}
-              min={0}
-              max={4}
-              unit="px"
-            />
-            <ParameterControl
-              label="Border Radius"
-              type="slider"
-              value={cardParams.borderRadius}
-              onChange={(value) => handleParameterUpdate('borderRadius', value)}
-              min={0}
-              max={24}
-              unit="px"
-            />
-            <ParameterControl
-              label="Padding"
-              type="slider"
-              value={cardParams.padding}
-              onChange={(value) => handleParameterUpdate('padding', value)}
-              min={12}
-              max={48}
-              unit="px"
-            />
-            <ParameterControl
-              label="Shadow Intensity"
-              type="slider"
-              value={cardParams.shadowIntensity}
-              onChange={(value) => handleParameterUpdate('shadowIntensity', value)}
-              min={0}
-              max={0.5}
-              step={0.05}
-            />
-            <ParameterControl
-              label="Hover Lift"
-              type="slider"
-              value={cardParams.hoverLift}
-              onChange={(value) => handleParameterUpdate('hoverLift', value)}
-              min={0}
-              max={12}
-              unit="px"
-            />
-            <ParameterControl
-              label="Layout"
-              type="select"
-              value={cardParams.layout}
-              onChange={(value) => handleParameterUpdate('layout', value)}
-              options={['vertical', 'horizontal']}
-            />
-            <ParameterControl
-              label="Interactive"
-              type="toggle"
-              value={cardParams.interactive}
-              onChange={(value) => handleParameterUpdate('interactive', value)}
-            />
-            <ParameterControl
-              label="Gradient"
-              type="toggle"
-              value={cardParams.gradient}
-              onChange={(value) => handleParameterUpdate('gradient', value)}
-            />
-          </>
-        )}
+          );
+        })}
+
+
+
       </div>
     </div>
   );
